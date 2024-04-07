@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.UserDishMapper">
+
+    <select id="queryByCategoryId" resultType="com.sky.vo.DishVO">
+        select dish.*,category.name category_name,
+               (select dish_flavor.value from dish_flavor where dish_id=dish.id) flavors
+        from dish,category
+        where category.id=dish.category_id
+          and category_id=#{categoryId}
+    </select>
+</mapper>

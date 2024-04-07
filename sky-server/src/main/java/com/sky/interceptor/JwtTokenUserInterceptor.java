@@ -1,17 +1,16 @@
 package com.sky.interceptor;
 
 import com.sky.constant.JwtClaimsConstant;
-import com.sky.constant.RedisKeyConstant;
 import com.sky.properties.JwtProperties;
 import com.sky.utils.JwtUtil;
 import com.sky.utils.UserHolder;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 @Slf4j
-public class JwtTokenAdminInterceptor implements HandlerInterceptor {
+public class JwtTokenUserInterceptor implements HandlerInterceptor {
 
     @Autowired
     private JwtProperties jwtProperties;
@@ -42,20 +41,20 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
 
         //1、从请求头中获取令牌
-        String token = request.getHeader(jwtProperties.getAdminTokenName());
+        String authentication = request.getHeader(jwtProperties.getUserTokenName());
 
         //2、校验令牌
         try {
-            log.info("jwt校验:{}", token);
-            Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            log.info("当前员工id: {}", empId);
+            log.info("jwt校验:{}", authentication);
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), authentication);
+            Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+            log.info("当前员工id: {}", userId);
 
              /*
              其实这里可以不用把用户id放到redis中，然后从redis中取出存入ThreadLocal
              因为Jwt令牌中本来就储存了用户的id，直接取出来存入ThreadLocal中就可以了
               */
-            UserHolder.saveUser(empId.toString());
+            UserHolder.saveUser(userId.toString());
 
             //3、通过，放行
             return true;

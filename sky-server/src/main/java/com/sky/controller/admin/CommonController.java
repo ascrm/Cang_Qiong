@@ -51,4 +51,6 @@ public class CommonController {
         String url = aliOssUtil.upload(file.getBytes(), prefix + suffix);
         return Result.success(url);
     }
+
+
 }
