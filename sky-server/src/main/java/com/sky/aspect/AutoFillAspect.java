@@ -44,11 +44,20 @@ public class AutoFillAspect {
 
         //获取数据库操作类型
         MethodSignature signature =(MethodSignature) joinPoint.getSignature();//获取方法签名对象
+        log.info("打印joinPoint：{}",joinPoint);
+        log.info("打印signature：{}",signature);
+        log.info("打印Method类：{}",signature.getMethod());
+
         AutoFill autoFill = signature.getMethod().getAnnotation(AutoFill.class);//获取方法上的注解对象
+        log.info("打印autoFill：{}",autoFill);
+
         OperationType value = autoFill.value();//获取数据库操作类型
+        log.info("打印OperationType：{}",value);
 
         //获取实体类对象
         Object[] args = joinPoint.getArgs(); //参数列表
+        log.info("打印参数列表：{}",args);
+
         if(args==null||args.length==0){
             return;
         }
@@ -61,10 +70,14 @@ public class AutoFillAspect {
         //判断数据库操作是哪一种
         if(value==OperationType.INSERT){
             try {
+
                 Method setCreateTime = entity.getClass().getDeclaredMethod(SET_CREATE_TIME, LocalDateTime.class);
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(SET_UPDATE_TIME, LocalDateTime.class);
                 Method setCreateUser = entity.getClass().getDeclaredMethod(SET_CREATE_USER, Long.class);
                 Method setUpdateUser = entity.getClass().getDeclaredMethod(SET_UPDATE_USER, Long.class);
+
+                log.info("entity的类型是：{}",entity.getClass());
+                log.info("打印setCreateTime：{}",setCreateTime);
 
                 //通过反射给对象赋值
                 setCreateTime.invoke(entity,now);
