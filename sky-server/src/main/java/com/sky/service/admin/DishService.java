@@ -1,4 +1,4 @@
-package com.sky.service;
+package com.sky.service.admin;
 
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
@@ -26,7 +26,7 @@ public interface DishService {
     /**
      * 根据id查询菜品
      */
-    Result<DishVO> selectById(Integer id);
+    Result<DishVO> selectById(Long id);
 
     /**
      * 修改菜品

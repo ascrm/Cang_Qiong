@@ -1,9 +1,9 @@
-package com.sky.service.impl;
+package com.sky.service.user.Imp;
 
 import com.sky.entity.Category;
 import com.sky.mapper.UserCategoryMapper;
 import com.sky.result.Result;
-import com.sky.service.UserCategoryService;
+import com.sky.service.user.UserCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.sky.service.impl;
+package com.sky.service.user.Imp;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -8,17 +8,14 @@ import com.sky.entity.User;
 import com.sky.exception.LoginFailedException;
 import com.sky.mapper.UserMapper;
 import com.sky.properties.WeChatProperties;
-import com.sky.result.Result;
-import com.sky.service.UserService;
+import com.sky.service.user.UserService;
 import com.sky.utils.HttpClientUtil;
-import com.sky.vo.UserLoginVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.OptionalInt;
 
 /**
  * @Author:ascrm

@@ -26,6 +26,10 @@ public class RedisKeyConstant {
      */
     public static final String DISH_NAME="dish:name:";
 
+
+    /**
+     * 菜品或套餐分类key
+     */
     public static final String DISH_CATEGORY_ID="dish:categoryId:";
 
     /**

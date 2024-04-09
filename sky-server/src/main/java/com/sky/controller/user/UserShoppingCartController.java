@@ -1,11 +1,9 @@
 package com.sky.controller.user;
 
-import com.sky.dto.DishDTO;
 import com.sky.dto.ShoppingCartDTO;
 import com.sky.entity.ShoppingCart;
 import com.sky.result.Result;
-import com.sky.service.UserShoppingCartService;
-import lombok.RequiredArgsConstructor;
+import com.sky.service.user.UserShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +37,6 @@ public class UserShoppingCartController {
     @PostMapping("/add")
     public Result<String> addDish(@RequestBody ShoppingCartDTO shoppingCartDTO){
 
-        return Result.success();
+        return userShoppingCartService.addDish(shoppingCartDTO);
     }
 }

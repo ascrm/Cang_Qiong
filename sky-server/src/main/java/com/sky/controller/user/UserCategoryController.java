@@ -2,11 +2,10 @@ package com.sky.controller.user;
 
 import com.sky.entity.Category;
 import com.sky.result.Result;
-import com.sky.service.UserCategoryService;
+import com.sky.service.user.UserCategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

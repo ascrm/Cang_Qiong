@@ -4,7 +4,7 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
-import com.sky.service.DishService;
+import com.sky.service.admin.DishService;
 import com.sky.vo.DishVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,7 @@ public class DishController {
      * 根据id查询菜品
      */
     @GetMapping("/{id}")
-    public Result<DishVO> selectById(@PathVariable Integer id){
+    public Result<DishVO> selectById(@PathVariable Long id){
         return dishService.selectById(id);
     }
 

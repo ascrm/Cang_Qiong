@@ -1,4 +1,4 @@
-package com.sky.service;
+package com.sky.service.user;
 
 import com.sky.dto.DishDTO;
 import com.sky.dto.ShoppingCartDTO;

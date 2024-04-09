@@ -1,4 +1,4 @@
-package com.sky.service;
+package com.sky.service.user;
 
 import com.sky.result.Result;
 import com.sky.vo.DishVO;

@@ -26,3 +26,5 @@ replay_pid*
 
 
 
+/sky-server/src/main/java/com/sky/aspect/testFillAspect.java
+/dataResource/dish.json

@@ -4,7 +4,7 @@ import com.sky.dto.UserLoginDTO;
 import com.sky.entity.User;
 import com.sky.properties.JwtProperties;
 import com.sky.result.Result;
-import com.sky.service.UserService;
+import com.sky.service.user.UserService;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.UserLoginVO;
 import lombok.RequiredArgsConstructor;

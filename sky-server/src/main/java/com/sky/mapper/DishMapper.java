@@ -27,7 +27,7 @@ public interface DishMapper {
      * 根据id查询菜品
      */
     @Select("select * from dish where id = #{id}")
-    DishVO selectById(Integer id);
+    DishVO selectById(Long id);
 
     /**
      * 修改菜品信息

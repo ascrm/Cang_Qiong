@@ -1,7 +1,7 @@
 package com.sky.controller.user;
 
 import com.sky.result.Result;
-import com.sky.service.UserDishService;
+import com.sky.service.user.UserDishService;
 import com.sky.vo.DishVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
