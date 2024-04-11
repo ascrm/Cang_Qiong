@@ -1,6 +1,7 @@
 package com.sky.mapper;
 
 import com.sky.annotation.AutoFill;
+import com.sky.dto.ShoppingCartDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.ShoppingCart;
 import com.sky.enumeration.OperationType;
@@ -27,7 +28,7 @@ public interface UserShoppingCartMapper {
     /**
      * 根据菜品id查询菜品
      */
-    ShoppingCart queryShoppingCart(Long dishId);
+    ShoppingCart queryShoppingCart(ShoppingCart shoppingCart);
 
     /**
      * 添加菜品到购物车
@@ -39,6 +40,6 @@ public interface UserShoppingCartMapper {
     /**
      * 菜品或套餐number字段加1
      */
-    @Update("update shopping_cart set number=number+1 where dish_id=#{id}")
-    void addShoppingCartNum(Long id);
+    @Update("update shopping_cart set number=number+1 where dish_id=#{dishId} and user_id=#{userId}")
+    void addShoppingCartNum(ShoppingCart shoppingCart);
 }

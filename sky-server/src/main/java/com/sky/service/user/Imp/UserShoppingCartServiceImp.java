@@ -1,5 +1,6 @@
 package com.sky.service.user.Imp;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.sky.dto.ShoppingCartDTO;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.UserShoppingCartMapper;
@@ -41,14 +42,17 @@ public class UserShoppingCartServiceImp implements UserShoppingCartService {
     public Result<String> addDish(ShoppingCartDTO shoppingCartDTO) {
 
         //查询数据库，判断该菜品或套餐是否存在(这个地方查要根据dto的三个字段来查，口味不一样要单独存为一个)
-        ShoppingCart shoppingCart = userShoppingCartMapper.queryShoppingCart(shoppingCartDTO.getDishId());
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtil.copyProperties(shoppingCartDTO,shoppingCart);
+        shoppingCart.setUserId(Long.parseLong(UserHolder.getUser()));
 
-        //TODO 若这里使套餐，查询的应该是setmeal表，而不是dish表
+        ShoppingCart isShoppingCart = userShoppingCartMapper.queryShoppingCart(shoppingCart);
+
         //若不存在，则新增该菜品
-        if(shoppingCart==null){
+        if(isShoppingCart==null){
             //查询dish表，获取shoppingCart其他的完整属性
             DishVO dish = dishMapper.selectById(shoppingCartDTO.getDishId());
-            shoppingCart = ShoppingCart.builder()
+            isShoppingCart = ShoppingCart.builder()
                     .amount(dish.getPrice())
                     .image(dish.getImage())
                     .name(dish.getName())
@@ -60,12 +64,12 @@ public class UserShoppingCartServiceImp implements UserShoppingCartService {
                     .build();
 
             //将菜品新增到购物车
-            userShoppingCartMapper.addShoppingCart(shoppingCart);
+            userShoppingCartMapper.addShoppingCart(isShoppingCart);
             return Result.success();
         }
 
         //若存在，则使该菜品的number字段加1
-        userShoppingCartMapper.addShoppingCartNum(shoppingCartDTO.getDishId());
+        userShoppingCartMapper.addShoppingCartNum(isShoppingCart);
 
         return Result.success();
     }

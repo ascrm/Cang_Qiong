@@ -71,8 +71,8 @@ public class AutoFillAspect {
         if(value==OperationType.INSERT){
             try {
 
-                Method setCreateTime = entity.getClass().getDeclaredMethod(SET_CREATE_TIME, LocalDateTime.class);
-                Method setUpdateTime = entity.getClass().getDeclaredMethod(SET_UPDATE_TIME, LocalDateTime.class);
+                Method setCreateTime = entity.getClass().getDeclaredMethod(SET_CREATE_TIME, String.class);
+                Method setUpdateTime = entity.getClass().getDeclaredMethod(SET_UPDATE_TIME, String.class);
                 Method setCreateUser = entity.getClass().getDeclaredMethod(SET_CREATE_USER, Long.class);
                 Method setUpdateUser = entity.getClass().getDeclaredMethod(SET_UPDATE_USER, Long.class);
 
@@ -89,7 +89,7 @@ public class AutoFillAspect {
             }
         }else if(value==OperationType.UPDATE){
             try {
-                Method setUpdateTime = entity.getClass().getDeclaredMethod(SET_UPDATE_TIME, LocalDateTime.class);
+                Method setUpdateTime = entity.getClass().getDeclaredMethod(SET_UPDATE_TIME, String.class);
                 Method setUpdateUser = entity.getClass().getDeclaredMethod(SET_UPDATE_USER, Long.class);
 
                 setUpdateTime.invoke(entity,now);

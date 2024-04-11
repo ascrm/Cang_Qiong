@@ -1,27 +1,27 @@
 package com.sky.service.user.Imp;
 
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
-import cn.hutool.log.Log;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sky.entity.Dish;
+import com.sky.entity.DishFlavor;
 import com.sky.mapper.UserDishMapper;
 import com.sky.result.Result;
 import com.sky.service.user.UserDishService;
 import com.sky.vo.DishVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.builder.ResultMapResolver;
-import org.apache.logging.log4j.spi.ObjectThreadContextMap;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 import static com.sky.constant.RedisKeyConstant.DISH_CATEGORY_ID;
 
@@ -39,38 +39,40 @@ public class UserDishServiceImp implements UserDishService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
+
     /**
      * 根据分类id查询菜品列表
      */
     @Override
     public Result<List<DishVO>> queryByCategoryId(Long categoryId) {
-        /*
-        这里考虑到高并发的情况（是大概率存在的），先从redis中查询，若未查到，再查找数据库
-         */
-        String dishListJson = stringRedisTemplate.opsForValue().get(DISH_CATEGORY_ID + categoryId);
-        if(dishListJson!=null){
-            log.info("打印一下转json转化之前：{}",dishListJson);
-            ObjectMapper objectMapper = new ObjectMapper();
-            ArrayList<DishVO> list = null;
 
+        //先从redis中查询菜品
+        String dishListJson = stringRedisTemplate.opsForValue().get(DISH_CATEGORY_ID + categoryId);
+
+        //将集合字符串转化为对象
+        if(dishListJson!=null){
+            ArrayList<DishVO> list = new ArrayList<>();
+            ObjectMapper objectMapper = new ObjectMapper();
             try {
                 list = objectMapper.readValue(dishListJson, new TypeReference<ArrayList<DishVO>>() {});
             } catch (JsonProcessingException e) {
-
                 throw new RuntimeException(e);
             }
-
-            log.info("打印一下转化为集合的json：{}",list);
+            return Result.success(list);
         }
 
-       //若redis中未查询到，则从数据库中查询
+        //若redis中未查询到，则从数据库中查询
+        //1.查询口味数据
         List<DishVO> list = userDishMapper.queryByCategoryId(categoryId);
+        for (DishVO dishVO : list) {
+            List<DishFlavor> dishFlavors = userDishMapper.queryFlavorsByDishId(dishVO.getId());
+            dishVO.setFlavors(dishFlavors);
+        }
 
         //然后将查询到的数据存入redis中
         String dishListStr = JSONUtil.toJsonStr(list);
-        log.info("打印一下转化为json的集合：{}",dishListStr);
         stringRedisTemplate.opsForValue().set(DISH_CATEGORY_ID+categoryId,dishListStr);
 
-        return Result.success(list);
+       return Result.success(list);
     }
 }

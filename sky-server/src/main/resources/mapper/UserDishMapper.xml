@@ -4,8 +4,7 @@
 <mapper namespace="com.sky.mapper.UserDishMapper">
 
     <select id="queryByCategoryId" resultType="com.sky.vo.DishVO">
-        select dish.*,category.name category_name,
-               (select dish_flavor.value from dish_flavor where dish_id=dish.id) flavors
+        select dish.*,category.name category_name
         from dish,category
         where category.id=dish.category_id
           and category_id=#{categoryId}
