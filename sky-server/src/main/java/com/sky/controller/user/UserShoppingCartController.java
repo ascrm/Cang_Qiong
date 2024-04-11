@@ -1,6 +1,7 @@
 package com.sky.controller.user;
 
 import com.sky.dto.ShoppingCartDTO;
+import com.sky.dto.SubDishDTO;
 import com.sky.entity.ShoppingCart;
 import com.sky.result.Result;
 import com.sky.service.user.UserShoppingCartService;
@@ -38,5 +39,13 @@ public class UserShoppingCartController {
     public Result<String> addDish(@RequestBody ShoppingCartDTO shoppingCartDTO){
 
         return userShoppingCartService.addDish(shoppingCartDTO);
+    }
+
+    /**
+     * 删除购物车中的菜品
+     */
+    @PostMapping("/sub")
+    public Result<String> subDish(@RequestBody SubDishDTO subDishDTO){
+        return userShoppingCartService.subDish(subDishDTO);
     }
 }

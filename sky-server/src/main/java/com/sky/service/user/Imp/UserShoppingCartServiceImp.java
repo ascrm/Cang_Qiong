@@ -2,6 +2,7 @@ package com.sky.service.user.Imp;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.sky.dto.ShoppingCartDTO;
+import com.sky.dto.SubDishDTO;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.UserShoppingCartMapper;
 import com.sky.entity.ShoppingCart;
@@ -71,6 +72,15 @@ public class UserShoppingCartServiceImp implements UserShoppingCartService {
         //若存在，则使该菜品的number字段加1
         userShoppingCartMapper.addShoppingCartNum(isShoppingCart);
 
+        return Result.success();
+    }
+
+    /**
+     * 删除购物车中的菜品
+     */
+    @Override
+    public Result<String> subDish(SubDishDTO subDishDTO) {
+        userShoppingCartMapper.subDish(subDishDTO);
         return Result.success();
     }
 }
