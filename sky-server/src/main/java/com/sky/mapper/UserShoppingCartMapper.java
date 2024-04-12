@@ -1,11 +1,7 @@
 package com.sky.mapper;
 
-import com.sky.annotation.AutoFill;
-import com.sky.dto.ShoppingCartDTO;
 import com.sky.dto.SubDishDTO;
-import com.sky.entity.Dish;
 import com.sky.entity.ShoppingCart;
-import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -43,5 +39,10 @@ public interface UserShoppingCartMapper {
     /**
      * 删除购物车中的菜品
      */
-    void subDish(SubDishDTO subDishDTO);
+    boolean subDish(SubDishDTO subDishDTO);
+
+    /**
+     * 删除购物车中的菜品
+     */
+    void delShoppingCart(SubDishDTO subDishDTO);
 }

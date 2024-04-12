@@ -51,13 +51,16 @@ public class UserDishServiceImp implements UserDishService {
 
         //将集合字符串转化为对象
         if(dishListJson!=null){
-            ArrayList<DishVO> list = new ArrayList<>();
+
             ObjectMapper objectMapper = new ObjectMapper();
+            ArrayList<DishVO> list;
             try {
-                list = objectMapper.readValue(dishListJson, new TypeReference<ArrayList<DishVO>>() {});
+                list = objectMapper.readValue(dishListJson, new TypeReference<>() {
+                });
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
+
             return Result.success(list);
         }
 

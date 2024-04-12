@@ -80,7 +80,13 @@ public class UserShoppingCartServiceImp implements UserShoppingCartService {
      */
     @Override
     public Result<String> subDish(SubDishDTO subDishDTO) {
-        userShoppingCartMapper.subDish(subDishDTO);
+        //当number字段大于1时，number字段减一即可
+        boolean isSub = userShoppingCartMapper.subDish(subDishDTO);
+
+        //当number字段等于1时，下一次减一就等于删掉商品
+        if(!isSub){
+            userShoppingCartMapper.delShoppingCart(subDishDTO);
+        }
         return Result.success();
     }
 }

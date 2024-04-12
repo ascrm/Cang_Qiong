@@ -19,7 +19,7 @@
         </where>
     </update>
 
-<!--    删除购物车菜品-->
+<!--    number字段减一-->
     <update id="subDish">
         update shopping_cart set number=number-1
         <where>
@@ -29,8 +29,24 @@
             <if test="dishFlavor!=null">
                 and dish_flavor=#{dishFlavor}
             </if>
+            <if test="">
+                and number > 1
+            </if>
         </where>
     </update>
+
+<!--    删除菜品-->
+    <delete id="delShoppingCart">
+        delete from shopping_cart
+        <where>
+            <if test="dishId!=null">
+                and dish_id=#{dishId}
+            </if>
+            <if test="dishFlavor!=null">
+                and dish_flavor=#{dishFlavor}
+            </if>
+        </where>
+    </delete>
 
     <select id="queryShoppingCart" resultType="com.sky.entity.ShoppingCart">
         select * from shopping_cart
